@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://c58jx1c8lpufy"]
+
+[ext_resource type="Script" path="res://src/ShowDialogue.gd" id="1_c0d3y"]
+[ext_resource type="Texture2D" uid="uid://c37mcn2trt3bb" path="res://presse.png" id="2_0vg8h"]
+[ext_resource type="Texture2D" uid="uid://c6xbbaqx8fkc4" path="res://bird/bird1.png" id="3_jq660"]
+[ext_resource type="PackedScene" uid="uid://bkusroyo1x8gm" path="res://scenes/dialog.tscn" id="4_sbtjx"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6ktvn"]
+radius = 0.638905
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_in3iu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jq660")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+script = ExtResource("1_c0d3y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("SphereShape3D_6ktvn")
+
+[node name="Sprite3D" type="Sprite3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.70973, 0.0124933)
+pixel_size = 0.012
+billboard = 1
+texture = ExtResource("2_0vg8h")
+
+[node name="Control" parent="Area3D" instance=ExtResource("4_sbtjx")]
+visible = false
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+billboard = 1
+sprite_frames = SubResource("SpriteFrames_in3iu")
+
+[connection signal="area_shape_entered" from="Area3D" to="Area3D" method="_on_area_shape_entered"]
+[connection signal="area_shape_exited" from="Area3D" to="Area3D" method="_on_area_shape_exited"]
+[connection signal="input_event" from="Area3D" to="Area3D" method="_on_input_event"]

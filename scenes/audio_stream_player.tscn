@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7wnajph5rs4u"]
+
+[ext_resource type="AudioStream" uid="uid://c4g8gr0cmdyq3" path="res://ost moon.mp3" id="1_5n0ox"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_5n0ox")
+volume_db = 6.14
+autoplay = true

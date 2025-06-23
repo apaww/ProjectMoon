@@ -1,0 +1,117 @@
+[gd_scene load_steps=16 format=3 uid="uid://881ygugy27qp"]
+
+[ext_resource type="PackedScene" uid="uid://bgkevqdr575g3" path="res://scenes/objects/player.tscn" id="1_25sdd"]
+[ext_resource type="Script" path="res://src/Pause.gd" id="1_qdqu1"]
+[ext_resource type="Shader" path="res://shaders/post.gdshader" id="2_h8yuj"]
+[ext_resource type="PackedScene" uid="uid://cguam71n30qpt" path="res://scenes/objects/platform.tscn" id="4_alvfn"]
+[ext_resource type="PackedScene" uid="uid://dywc2npyx7dqh" path="res://scenes/objects/ladder.tscn" id="4_e8qcd"]
+[ext_resource type="FontFile" uid="uid://dh8ndyx2pvd32" path="res://SF Pixelate Bold.ttf" id="4_oq5n4"]
+[ext_resource type="Script" path="res://src/Discord.gd" id="5_lyr1e"]
+[ext_resource type="AudioStream" uid="uid://dg4ay74owvq2n" path="res://pad2 lost.mp3" id="8_gpulx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y13ni"]
+shader = ExtResource("2_h8yuj")
+shader_parameter/enabled = true
+shader_parameter/dithering = true
+shader_parameter/colors = 5
+shader_parameter/dither_size = 1
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tdkqr"]
+sky_top_color = Color(0.0174637, 0.0261258, 0.0416482, 1)
+sky_horizon_color = Color(0.526155, 0.523961, 0.522778, 1)
+sky_energy_multiplier = 0.0
+ground_bottom_color = Color(0.0871543, 0.0697184, 0.0494625, 1)
+ground_horizon_color = Color(0.526155, 0.523961, 0.522778, 1)
+
+[sub_resource type="Sky" id="Sky_1lblo"]
+sky_material = SubResource("ProceduralSkyMaterial_tdkqr")
+
+[sub_resource type="Environment" id="Environment_cs7w3"]
+background_mode = 2
+background_energy_multiplier = 0.0
+sky = SubResource("Sky_1lblo")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_k810x"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_620cv"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lxpgs"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_qdqu1")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_y13ni")
+offset_right = 854.0
+offset_bottom = 480.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(854, 480)
+render_target_update_mode = 4
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.666923, -0.620759, 0.412156, -0.119934, -0.635352, -0.762852, 0.735411, 0.459332, -0.498181, 87.4837, -35.1395, -62.9322)
+light_temperature = 4500.0
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(-0.0112989, -0.999037, -0.0423856, 0.266453, -0.0438638, 0.962849, -0.963782, -0.000414645, 0.266692, -126.556, 42.8794, 124.944)
+light_temperature = 4500.0
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport"]
+environment = SubResource("Environment_cs7w3")
+camera_attributes = SubResource("CameraAttributesPractical_k810x")
+
+[node name="Node3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_e8qcd")]
+transform = Transform3D(0.405, 0, 0, 0, 0.405, 0, 0, 0, 0.405, 6.88686, 0.0251999, -3.26146)
+
+[node name="Node3D" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("4_e8qcd")]
+transform = Transform3D(0.405, 0, 0, 0, 0.405, 0, 0, 0, 0.405, 6.94263, -0.120394, 39.6076)
+
+[node name="Node3D2" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_alvfn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.912137, 20, 8.78694, -2.55111)
+
+[node name="Node3D2" parent="SubViewportContainer/SubViewport/Node3D2" instance=ExtResource("4_alvfn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.912137, 14.9288, 1.00975, -0.727674)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_620cv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0, 0)
+visible = false
+mesh = SubResource("PlaneMesh_lxpgs")
+
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_25sdd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.32731, 0.258038, -7.10526)
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 10.0
+offset_top = 21.0
+offset_right = 550.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("4_oq5n4")
+theme_override_font_sizes/font_size = 100
+text = "|| Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Discord" type="Node" parent="."]
+script = ExtResource("5_lyr1e")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_gpulx")
+volume_db = -7.78
+autoplay = true
+parameters/looping = true

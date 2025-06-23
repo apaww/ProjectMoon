@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://c33xjrh87yxae"]
+
+[ext_resource type="Script" path="res://src/Menu.gd" id="1_kwekq"]
+[ext_resource type="FontFile" uid="uid://dh8ndyx2pvd32" path="res://SF Pixelate Bold.ttf" id="2_k6cm0"]
+[ext_resource type="Texture2D" uid="uid://byaobqv1px2bd" path="res://menu.png" id="2_si2rw"]
+
+[sub_resource type="FontVariation" id="FontVariation_vuv7g"]
+base_font = ExtResource("2_k6cm0")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1q3p"]
+bg_color = Color(0.780125, 0.628944, 0.568557, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.592205, 0.407047, 0.347215, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kwekq")
+
+[node name="Menu" type="Sprite2D" parent="."]
+position = Vector2(427, 240)
+scale = Vector2(0.357562, 0.357562)
+texture = ExtResource("2_si2rw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 150.0
+offset_right = 627.0
+offset_bottom = 357.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_vuv7g")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_e1q3p")
+text = "Play"
+
+[node name="Telegram" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_vuv7g")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_e1q3p")
+text = "Telegram"
+
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_vuv7g")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_e1q3p")
+text = "Exit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Telegram" to="." method="_on_telegram_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

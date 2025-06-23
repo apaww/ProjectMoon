@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://do6hfqwlgwnrr"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_shaq3"]
+rayleigh_color = Color(0.386872, 0.723995, 0.957489, 1)
+mie_coefficient = 0.07
+mie_eccentricity = 1.0
+mie_color = Color(0.160223, 0.663607, 0.828617, 1)
+turbidity = 0.0
+sun_disk_scale = 0.0
+ground_color = Color(0.300215, 0.752126, 0.97151, 1)
+energy_multiplier = 3.51
+
+[sub_resource type="Sky" id="Sky_7fqee"]
+sky_material = SubResource("PhysicalSkyMaterial_shaq3")
+
+[sub_resource type="Environment" id="Environment_ggxlp"]
+background_mode = 2
+background_color = Color(0.451124, 0.627982, 0.801076, 1)
+sky = SubResource("Sky_7fqee")
+ambient_light_source = 3
+ambient_light_color = Color(0.299294, 0.727653, 0.889773, 1)
+ambient_light_sky_contribution = 0.45
+ambient_light_energy = 1.87
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_white = 6.0
+ssao_enabled = true
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 2.83
+glow_strength = 0.69
+glow_blend_mode = 1
+glow_hdr_threshold = 0.0
+glow_hdr_scale = 2.02
+fog_enabled = true
+fog_light_color = Color(0.571904, 0.652729, 0.77092, 1)
+fog_light_energy = 0.0
+fog_sun_scatter = 0.08
+fog_density = 0.0157
+fog_aerial_perspective = 0.246
+volumetric_fog_density = 1.1495
+adjustment_enabled = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3m134"]
+dof_blur_far_distance = 0.01
+
+[node name="WorldEnvironment" type="WorldEnvironment"]
+environment = SubResource("Environment_ggxlp")
+camera_attributes = SubResource("CameraAttributesPractical_3m134")

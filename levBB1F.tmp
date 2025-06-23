@@ -1,0 +1,283 @@
+[gd_scene load_steps=43 format=3 uid="uid://byg0ije1354t6"]
+
+[ext_resource type="Shader" path="res://shaders/post.gdshader" id="1_dsky5"]
+[ext_resource type="PackedScene" uid="uid://bgkevqdr575g3" path="res://player.tscn" id="1_jfmkw"]
+[ext_resource type="Script" path="res://level.gd" id="1_ymrd1"]
+[ext_resource type="Texture2D" uid="uid://b4mgby02fgho7" path="res://TCom_Ground_Grass03_header.jpg" id="2_28jdb"]
+[ext_resource type="PackedScene" uid="uid://drvedrph86a43" path="res://tree01.tscn" id="3_8f7e4"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter.gd" id="3_oghmf"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="4_undye"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="5_25nhf"]
+[ext_resource type="Texture2D" uid="uid://by62bboyiqrj" path="res://tree_pack_1.1/textures/tree01.png" id="5_i30y1"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="6_rsqp4"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="7_bpgy4"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="8_md2io"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="9_ndggk"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_item.gd" id="10_eihc2"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_shape.gd" id="11_kl5s2"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="12_vlv6f"]
+[ext_resource type="Texture2D" uid="uid://q6bs25mnk7vl" path="res://tree_pack_1.1/textures/bush08.png" id="14_d4vwp"]
+[ext_resource type="Script" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="17_5jlqm"]
+[ext_resource type="Script" path="res://discord.gd" id="19_frx4x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y37on"]
+shader = ExtResource("1_dsky5")
+shader_parameter/enabled = true
+shader_parameter/dithering = true
+shader_parameter/colors = 10
+shader_parameter/dither_size = 1
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_shaq3"]
+energy_multiplier = 4.55
+
+[sub_resource type="Sky" id="Sky_7fqee"]
+sky_material = SubResource("PhysicalSkyMaterial_shaq3")
+
+[sub_resource type="Environment" id="Environment_ggxlp"]
+background_mode = 2
+background_energy_multiplier = 0.59
+sky = SubResource("Sky_7fqee")
+tonemap_mode = 3
+tonemap_white = 6.0
+ssao_enabled = true
+glow_normalized = true
+glow_blend_mode = 1
+fog_enabled = true
+fog_light_color = Color(0.667617, 0.649761, 0.551016, 1)
+fog_light_energy = 1.01
+fog_sun_scatter = 0.23
+fog_density = 0.0088
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3m134"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hbsdk"]
+albedo_color = Color(0.660056, 0.740096, 0.643062, 1)
+albedo_texture = ExtResource("2_28jdb")
+uv1_scale = Vector3(10, 10, 10)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nrobs"]
+material = SubResource("StandardMaterial3D_hbsdk")
+size = Vector2(100, 100)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vmr2h"]
+data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
+
+[sub_resource type="Resource" id="Resource_cmhdf"]
+script = ExtResource("6_rsqp4")
+amount = 10000
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_b7cun"]
+script = ExtResource("7_bpgy4")
+position = Vector3(0.15, 0, 0.15)
+rotation = Vector3(5, 360, 5)
+scale = Vector3(0.1, 0.1, 0.1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_60ena"]
+script = ExtResource("8_md2io")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_rm3uj"]
+script = ExtResource("9_ndggk")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_nh7av"]
+script = ExtResource("4_undye")
+stack = Array[ExtResource("5_25nhf")]([SubResource("Resource_cmhdf"), SubResource("Resource_b7cun"), SubResource("Resource_60ena"), SubResource("Resource_rm3uj")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s60iq"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("5_i30y1")
+
+[sub_resource type="Resource" id="Resource_g8bsm"]
+script = ExtResource("12_vlv6f")
+radius = 25.0
+
+[sub_resource type="Resource" id="Resource_tmpwu"]
+script = ExtResource("6_rsqp4")
+amount = 10000
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_mmae8"]
+script = ExtResource("7_bpgy4")
+position = Vector3(0.15, 0, 0.15)
+rotation = Vector3(5, 360, 5)
+scale = Vector3(0.1, 0.1, 0.1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_38k84"]
+script = ExtResource("8_md2io")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_bljbj"]
+script = ExtResource("9_ndggk")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_x6fsi"]
+script = ExtResource("4_undye")
+stack = Array[ExtResource("5_25nhf")]([SubResource("Resource_tmpwu"), SubResource("Resource_mmae8"), SubResource("Resource_38k84"), SubResource("Resource_bljbj")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sbmf0"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("14_d4vwp")
+
+[sub_resource type="Resource" id="Resource_hkxo1"]
+script = ExtResource("12_vlv6f")
+radius = 81.92
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2dhf2"]
+transparency = 1
+albedo_texture = ExtResource("5_i30y1")
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_ymrd1")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_y37on")
+offset_right = 854.0
+offset_bottom = 480.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(854, 480)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport"]
+environment = SubResource("Environment_ggxlp")
+camera_attributes = SubResource("CameraAttributesPractical_3m134")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(-0.976646, 0.19311, -0.094186, 0.102612, 0.804374, 0.585194, 0.188768, 0.561863, -0.805405, -1.81131, 1.81652, -2.05296)
+light_temperature = 2000.0
+light_energy = 4.286
+shadow_enabled = true
+directional_shadow_split_1 = 0.04
+directional_shadow_split_2 = 0.11
+directional_shadow_split_3 = 0.33
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 200.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_nrobs")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/MeshInstance3D/StaticBody3D"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_vmr2h")
+
+[node name="ProtonScatter" type="Node3D" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+script = ExtResource("3_oghmf")
+modifier_stack = SubResource("Resource_nh7av")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+
+[node name="ScatterItem" type="Node3D" parent="SubViewportContainer/SubViewport/MeshInstance3D/ProtonScatter"]
+script = ExtResource("10_eihc2")
+source_scale_multiplier = 0.05
+override_material = SubResource("StandardMaterial3D_s60iq")
+path = "res://tree_pack_1.1/models/tree01.fbx"
+
+[node name="ScatterShape" type="Node3D" parent="SubViewportContainer/SubViewport/MeshInstance3D/ProtonScatter"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+script = ExtResource("11_kl5s2")
+shape = SubResource("Resource_g8bsm")
+
+[node name="ProtonScatter2" type="Node3D" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+script = ExtResource("3_oghmf")
+modifier_stack = SubResource("Resource_x6fsi")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+
+[node name="ScatterItem" type="Node3D" parent="SubViewportContainer/SubViewport/MeshInstance3D/ProtonScatter2"]
+script = ExtResource("10_eihc2")
+source_scale_multiplier = 0.015
+override_material = SubResource("StandardMaterial3D_sbmf0")
+path = "res://tree_pack_1.1/models/bush07.fbx"
+
+[node name="ScatterShape" type="Node3D" parent="SubViewportContainer/SubViewport/MeshInstance3D/ProtonScatter2"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+script = ExtResource("11_kl5s2")
+shape = SubResource("Resource_hkxo1")
+
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_jfmkw")]
+transform = Transform3D(-0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, 0, 0, -6.70388)
+
+[node name="tree01" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_8f7e4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.9118, 0, -15.4942)
+
+[node name="tree01" parent="SubViewportContainer/SubViewport/tree01" index="0"]
+material_override = SubResource("StandardMaterial3D_2dhf2")
+
+[node name="DiscordRPCDebug" type="Node" parent="."]
+script = ExtResource("17_5jlqm")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("19_frx4x")
+
+[editable path="SubViewportContainer/SubViewport/tree01"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://c81pas5ok1y6n"]
+
+[ext_resource type="Script" path="res://OutOfBorders.gd" id="1_8yq7l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_76x4i"]
+size = Vector3(1000, 1, 1000)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0395366, -1.19209e-07, -0.0603807)
+script = ExtResource("1_8yq7l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("BoxShape3D_76x4i")
+
+[connection signal="area_shape_entered" from="Area3D" to="Area3D" method="_on_area_shape_entered"]
+[connection signal="area_shape_exited" from="Area3D" to="Area3D" method="_on_area_shape_exited"]
+[connection signal="input_event" from="Area3D" to="Area3D" method="_on_input_event"]

@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://c77pqa2kpmpc3"]
+
+[ext_resource type="Script" path="res://scenes/objects/CollectFlower.gd" id="1_le7ff"]
+[ext_resource type="Texture2D" uid="uid://c37mcn2trt3bb" path="res://presse.png" id="2_g0jp6"]
+[ext_resource type="PackedScene" uid="uid://bkusroyo1x8gm" path="res://scenes/dialog.tscn" id="3_xpy28"]
+[ext_resource type="Texture2D" uid="uid://b3agadd0ag6w6" path="res://flower.png" id="4_ttlgk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6ktvn"]
+radius = 0.638905
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0rc66"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ttlgk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0395366, -1.19209e-07, -0.0603807)
+script = ExtResource("1_le7ff")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("SphereShape3D_6ktvn")
+
+[node name="Sprite3D" type="Sprite3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.09217, 0.0124933)
+pixel_size = 0.012
+billboard = 1
+texture = ExtResource("2_g0jp6")
+
+[node name="Control" parent="Area3D" instance=ExtResource("3_xpy28")]
+visible = false
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Area3D"]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0.0115724, 1.2331, 0.0878555)
+billboard = 2
+sprite_frames = SubResource("SpriteFrames_0rc66")
+
+[connection signal="area_shape_entered" from="Area3D" to="Area3D" method="_on_area_shape_entered"]
+[connection signal="area_shape_exited" from="Area3D" to="Area3D" method="_on_area_shape_exited"]
+[connection signal="input_event" from="Area3D" to="Area3D" method="_on_input_event"]

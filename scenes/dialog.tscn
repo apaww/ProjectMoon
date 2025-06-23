@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkusroyo1x8gm"]
+
+[ext_resource type="Texture2D" uid="uid://d2c7crych8wif" path="res://1lvl.png" id="1_hcjfs"]
+[ext_resource type="Texture2D" uid="uid://c6xbbaqx8fkc4" path="res://bird/bird1.png" id="2_s7uoc"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="1Lvl" type="Sprite2D" parent="."]
+position = Vector2(432.351, 241.625)
+scale = Vector2(0.355649, 0.355649)
+texture = ExtResource("1_hcjfs")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(678, 215)
+scale = Vector2(0.885499, 0.885499)
+texture = ExtResource("2_s7uoc")
